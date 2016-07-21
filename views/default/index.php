@@ -1,8 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\StringHelper;
 use yii\grid\GridView;
+use d2emon\advice\components\AdviceWidget;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -26,8 +26,9 @@ $this->params['breadcrumbs'][] = $this->title;
 	      'attribute' => 'description',
 	      'format' => 'raw',
 	      'value' => function($model){
-	           $avatar = $model->avatar ? Html::img($model->avatar, ['align' => 'left']).' ' : '';
-		   return $avatar.StringHelper::truncate($model->description, 128);
+	           // $avatar = $model->avatar ? Html::img($model->avatar, ['align' => 'left']).' ' : '';
+		   return AdviceWidget::widget(['advice' => $model, 'truncate' => 128, 'show_title' => False]);
+		   //$avatar.StringHelper::truncate($model->description, 128);
 	      },
 	    ],
 

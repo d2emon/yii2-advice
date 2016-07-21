@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use d2emon\advice\components\AdviceWidget;
 
 /* @var $this yii\web\View */
 /* @var $model d2emon\advice\models\Advice */
@@ -33,8 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
 	    [
 	      'attribute' => 'description',
 	      'format' => 'raw',
-	      'value' => ($model->avatar ? Html::img($model->avatar, ['align' => 'left']).' ' : '')
-	        .$model->description,
+	      'value' => AdviceWidget::widget(['advice' => $model, 'show_title' => False]),
+	      //  ($model->avatar ? Html::img($model->avatar, ['align' => 'left']).' ' : '')
+	      //  .$model->description,
 	    ],
         ],
     ]) ?>
