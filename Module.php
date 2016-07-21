@@ -7,6 +7,10 @@ namespace d2emon\advice;
  */
 class Module extends \yii\base\Module
 {
+    public $baseImagePath = '/images/advices';
+    public $imagePath = '/web/images/advices';
+    public $uploadPath = '/web/uploads';
+
     /**
      * @inheritdoc
      */

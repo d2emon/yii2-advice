@@ -14,8 +14,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
+    <?= $model->avatar ? Html::img($model->avatar) : '' ?>
     <?= $form->field($model, 'imageFile')->fileInput() ?> 
-    <?= $model->avatar ? Html::img('/images/advices/'.$model->avatar, ['align' => 'left']) : '' ?>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 

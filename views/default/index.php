@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	      'attribute' => 'description',
 	      'format' => 'raw',
 	      'value' => function($model){
-	           $avatar = $model->avatar ? Html::img('/images/advices/'.$model->avatar, ['align' => 'left']).' ' : '';
+	           $avatar = $model->avatar ? Html::img($model->avatar, ['align' => 'left']).' ' : '';
 		   return $avatar.StringHelper::truncate($model->description, 128);
 	      },
 	    ],

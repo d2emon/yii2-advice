@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	    [
 	      'attribute' => 'description',
 	      'format' => 'raw',
-	      'value' => ($model->avatar ? Html::img('/images/advices/'.$model->avatar, ['align' => 'left']).' ' : '')
+	      'value' => ($model->avatar ? Html::img($model->avatar, ['align' => 'left']).' ' : '')
 	        .$model->description,
 	    ],
         ],
