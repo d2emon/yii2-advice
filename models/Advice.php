@@ -58,8 +58,8 @@ class Advice extends \yii\db\ActiveRecord
         if ($this->validate()) {
 	    $filename = $this->imageFile->baseName;	
 	    $full_filename = $filename . '.' . $this->imageFile->extension;
-	    $imagePath = Yii::$app->getModule('advice')->imagePath . '/';
-	    $uploadPath = Yii::$app->getModule('advice')->uploadPath . '/';
+	    $imagePath = Yii::$app->getModule('advice')->imagePath;
+	    $uploadPath = Yii::$app->getModule('advice')->uploadPath;
 	    $this->imageFile->saveAs($uploadPath.$full_filename);
 	    copy($uploadPath.$full_filename, $imagePath.$full_filename);
 	    $this->image = $filename;
@@ -79,6 +79,6 @@ class Advice extends \yii\db\ActiveRecord
     {
 	if (!$this->image)
 	    return False;
-	return sprintf(Yii::$app->getModule('advice')->baseImagePath."/%s.jpg", $this->image);
+	return sprintf("%s%s.jpg", Yii::$app->getModule('advice')->baseImagePath, $this->image);
     }
 }
