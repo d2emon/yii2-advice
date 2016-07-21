@@ -1,12 +1,37 @@
-<div class="advice-default-index">
-    <h1><?= $this->context->action->uniqueId ?></h1>
+<?php
+
+use yii\helpers\Html;
+use yii\helpers\StringHelper;
+use yii\grid\GridView;
+
+/* @var $this yii\web\View */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = Yii::t('advice', 'Advices');
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="advice-index">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+
     <p>
-        This is the view content for action "<?= $this->context->action->id ?>".
-        The action belongs to the controller "<?= get_class($this->context) ?>"
-        in the "<?= $this->context->module->id ?>" module.
+        <?= Html::a(Yii::t('advice', 'Create Advice'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <p>
-        You may customize this page by editing the following file:<br>
-        <code><?= __FILE__ ?></code>
-    </p>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => [
+            'id',
+            'title',
+	    [
+	      'attribute' => 'description',
+	      'format' => 'raw',
+	      'value' => function($model){
+	           $avatar = $model->avatar ? Html::img('/images/advices/'.$model->avatar, ['align' => 'left']).' ' : '';
+		   return $avatar.StringHelper::truncate($model->description, 128);
+	      },
+	    ],
+
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
 </div>
