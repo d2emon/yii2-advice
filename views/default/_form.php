@@ -1,7 +1,9 @@
 <?php
 
+use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\file\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model d2emon\advice\models\Advice */
@@ -14,8 +16,34 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $model->avatar ? Html::img($model->avatar) : '' ?>
-    <?= $form->field($model, 'imageFile')->fileInput() ?> 
+    <?php /* <?= $model->avatar ? Html::img($model->avatar) : '' ?> */ ?>
+    <?php /* <?= $form->field($model, 'imageFile')->fileInput() ?> */ ?>
+    <?php $extra = $model->isNewRecord ? [] : ['advice_id' => $model->id]; ?>
+    <?= $form->field($model, 'imageFile')->widget(FileInput::classname(), [
+	'options' => [
+	    'multiple' => False,
+	    'accept' => 'image/*',
+	],
+	'pluginOptions' => [
+	    'uploadUrl' => Url::to(['/advice/default/upload']),
+            'uploadExtraData' => $extra,
+	    // 'initialPreview' => [$model->avatar],
+	    // 'initialPreviewAsData' => True,
+	    // 'initialCaption' => $model->image,
+	    'overwriteInitial' => True,
+	    'showClose' => False,
+	    'showCaption' => False,
+	    'showBrowse' => False,
+	    'browseOnZoneClick' => True,
+	    'removeLabel' => '',
+	    'removeIcon' => '<i class="glyphicon glyphicon-remove"></i>',
+	    'removeTitle' => 'Cancel or reset',
+	    'defaultPreviewContent' => Html::img($model->avatar),
+	    'layoutTemplates' => [
+	        'main2' => '{preview} <i class="glyphicon glyphicon-tag"></i> {remove} {browse}',
+	    ],
+    	],
+    ]); ?>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 

@@ -52,6 +52,11 @@ class Advice extends \yii\db\ActiveRecord
 
     public function upload()
     {
+        if ((!$this->imageFile) && (Yii::$app->session->hasFlash('image'))){
+	    $this->image = Yii::$app->session->getFlash('image');
+	    return True;
+	}
+	Yii::$app->session->removeFlash('image');
 	if (!$this->imageFile) {
 	    return True;
 	}
@@ -64,7 +69,7 @@ class Advice extends \yii\db\ActiveRecord
 	    copy($uploadPath.$full_filename, $imagePath.$full_filename);
 	    $this->image = $filename;
 	    $this->imageFile = null;
-            return $this->save();
+            return True;
         } else {
             return false;
         }

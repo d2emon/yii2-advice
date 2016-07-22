@@ -10,6 +10,8 @@ use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
 
+use yii\helpers\Json;
+
 /**
  * Default controller for the `advice` module
  */
@@ -71,7 +73,7 @@ class DefaultController extends Controller
         $model = new Advice();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 	    $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-	    if ($model->upload()) {
+            if ($model->upload() && $model->save()) {
 	        // file is uploaded successfully
             	return $this->redirect(['view', 'id' => $model->id]);
 	    }
@@ -92,12 +94,15 @@ class DefaultController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+	    $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->upload() && $model->save()) {
+	        // file is uploaded successfully
+            	return $this->redirect(['view', 'id' => $model->id]);
+	    }
+        }
             return $this->render('update', [
                 'model' => $model,
             ]);
-        }
     }
 
     /**
@@ -111,6 +116,31 @@ class DefaultController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    /**
+     * Uploads images into Advice model.
+     * @return mixed
+     */
+    public function actionUpload()
+    {
+	$advice_id = Yii::$app->request->post('advice_id', 0);
+	$model = Advice::findOne($advice_id);
+	if(!$model){
+	    $model = new Advice;
+	}
+
+	$model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+        if ($model->upload()) {
+	    if ($advice_id) {
+		return Json::encode($model->save());
+	    }else{
+		Yii::$app->session->setFlash('image', $model->image);
+	        return Json::encode(True);
+	    }
+	    // file is uploaded successfully
+	}
+	return Json::encode(False);
     }
 
     /**
