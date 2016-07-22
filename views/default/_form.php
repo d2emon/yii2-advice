@@ -38,9 +38,9 @@ use kartik\file\FileInput;
 	    'removeLabel' => '',
 	    'removeIcon' => '<i class="glyphicon glyphicon-remove"></i>',
 	    'removeTitle' => 'Cancel or reset',
-	    'defaultPreviewContent' => Html::img($model->avatar),
+	    'defaultPreviewContent' => Html::img($model->avatar, ['width' => 64, 'height' => 64]),
 	    'layoutTemplates' => [
-	        'main2' => '{preview} <i class="glyphicon glyphicon-tag"></i> {remove} {browse}',
+	        'main2' => '{preview} {remove} {browse}',
 	    ],
     	],
     ]); ?>

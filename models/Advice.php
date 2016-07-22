@@ -3,6 +3,7 @@
 namespace d2emon\advice\models;
 
 use Yii;
+use yii\imagine\Image;
 
 /**
  * This is the model class for table "advice".
@@ -67,6 +68,8 @@ class Advice extends \yii\db\ActiveRecord
 	    $uploadPath = Yii::$app->getModule('advice')->uploadPath;
 	    $this->imageFile->saveAs($uploadPath.$full_filename);
 	    copy($uploadPath.$full_filename, $imagePath.$full_filename);
+	    Image::thumbnail($imagePath.$full_filename, 64, 64)
+		->save($imagePath.$filename.'_s.jpg');
 	    $this->image = $filename;
 	    $this->imageFile = null;
             return True;
