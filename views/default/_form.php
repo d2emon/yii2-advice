@@ -4,6 +4,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\file\FileInput;
+use d2emon\advice\components\ThumbWidget;
 
 /* @var $this yii\web\View */
 /* @var $model d2emon\advice\models\Advice */
@@ -38,7 +39,7 @@ use kartik\file\FileInput;
 	    'removeLabel' => '',
 	    'removeIcon' => '<i class="glyphicon glyphicon-remove"></i>',
 	    'removeTitle' => 'Cancel or reset',
-	    'defaultPreviewContent' => Html::img($model->avatar, ['width' => 64, 'height' => 64]),
+	    'defaultPreviewContent' => ThumbWidget::widget(['model' => $model, 'suffix' => '_s', 'size' => 64]),
 	    'layoutTemplates' => [
 	        'main2' => '{preview} {remove} {browse}',
 	    ],

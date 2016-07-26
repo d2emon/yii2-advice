@@ -3,7 +3,7 @@
 namespace d2emon\advice\models;
 
 use Yii;
-use yii\imagine\Image;
+use uxappetite\yii2image\components\ImageGroup;
 
 /**
  * This is the model class for table "advice".
@@ -61,16 +61,14 @@ class Advice extends \yii\db\ActiveRecord
 	if (!$this->imageFile) {
 	    return True;
 	}
-        if ($this->validate()) {
-	    $filename = $this->imageFile->baseName;	
-	    $full_filename = $filename . '.' . $this->imageFile->extension;
-	    $imagePath = Yii::$app->getModule('advice')->imagePath;
-	    $uploadPath = Yii::$app->getModule('advice')->uploadPath;
-	    $this->imageFile->saveAs($uploadPath.$full_filename);
-	    copy($uploadPath.$full_filename, $imagePath.$full_filename);
-	    Image::thumbnail($imagePath.$full_filename, 64, 64)
-		->save($imagePath.$filename.'_s.jpg');
-	    $this->image = $filename;
+	if ($this->validate()) {
+	    $group = Yii::$app->getModule('advice')->imageGroup;
+	    $this->image = $group->replace($this->image, $this->imageFile);
+	    /*
+	    Image::thumbnail($imagePath.$filename, 64, 64)
+		->save($imagePath.$imagename.'_s.jpg');
+	     */
+	    
 	    $this->imageFile = null;
             return True;
         } else {
@@ -83,10 +81,11 @@ class Advice extends \yii\db\ActiveRecord
      *
      * @return string
      */
-    public function getAvatar()
+    public function getThumb($suffix='')
     {
 	if (!$this->image)
 	    return False;
-	return sprintf("%s%s.jpg", Yii::$app->getModule('advice')->baseImagePath, $this->image);
+	$group = Yii::$app->getModule('advice')->imageGroup;
+	return '/'.$group->getFilename($this->image, $suffix);
     }
 }

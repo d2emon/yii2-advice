@@ -54,12 +54,12 @@ class AdviceWidget extends Widget
         $options['height'] = $options['height'] ? $options['height'] : $this->image_size;
 
 	$title  = ($this->show_title && $this->advice->title) ? Html::a('<h1>'.Html::encode($this->advice->title)."</h1>\n", ['/advice/default/view', 'id' => $this->advice->id]) : '';
-	$avatar = $this->advice->avatar ? Html::img($this->advice->avatar, $options).' ' : '';
+	$avatar = ThumbWidget::widget(['model' => $this->advice, 'suffix' => '_s', 'size' => $this->image_size, 'options' => $this->image_options]);
         $desc   = $this->advice->description;
 	if ($this->truncate) {
 	    $desc = StringHelper::truncate($desc, 128);
 	}	   
-	return "<div class=\"advice\">".$title."<div class=\"advice_body\">".$avatar.nl2br($desc)."</div></div>";
+	return "<div class=\"advice\">".$title."<div class=\"advice_body\">".$avatar.' '.nl2br($desc)."</div></div>";
     }
 }
 

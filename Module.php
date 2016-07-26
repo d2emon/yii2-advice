@@ -2,14 +2,14 @@
 
 namespace d2emon\advice;
 
+use Yii;
+
 /**
  * advice module definition class
  */
 class Module extends \yii\base\Module
 {
-    public $baseImagePath = '/images/advices/';
-    public $imagePath = 'images/advices/';
-    public $uploadPath = 'uploads/';
+    public $image_group_name = 'advice';
 
     /**
      * @inheritdoc
@@ -24,5 +24,10 @@ class Module extends \yii\base\Module
         parent::init();
 
         // custom initialization code goes here
+    }
+
+    public function getImageGroup()
+    {
+	return Yii::$app->getModule('image')->getImageGroup($this->image_group_name);
     }
 }
