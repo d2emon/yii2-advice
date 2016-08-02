@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use d2emon\advice\components\AdviceWidget;
+use uxappetite\yii2image\components\ImagedDescWidget;
 
 /* @var $this yii\web\View */
 /* @var $model d2emon\advice\models\Advice */
@@ -30,13 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'title',
 	    [
 	      'attribute' => 'description',
 	      'format' => 'raw',
-	      'value' => AdviceWidget::widget(['advice' => $model, 'show_title' => False]),
-	      //  ($model->avatar ? Html::img($model->avatar, ['align' => 'left']).' ' : '')
-	      //  .$model->description,
+              'value' => ImagedDescWidget::widget(['model' => $model, 'show_title' => True]),
 	    ],
         ],
     ]) ?>
